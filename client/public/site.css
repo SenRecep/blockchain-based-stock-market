@@ -1,0 +1,8 @@
+html,
+body {
+  height: 100%;
+}
+
+.v-card__loader {
+  height: 2px;
+}
