@@ -7,6 +7,7 @@ class UserCreateDto {
     this.email = data.email;
     this.password = data.password;
     this.identityNumber = data.identityNumber;
+    this.publicKey = data.publicKey;
   }
 }
 
