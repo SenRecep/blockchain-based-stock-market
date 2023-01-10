@@ -3,12 +3,10 @@ import HttpStatusCodes from "http-status-codes";
 import SwapRequestService from "../services/swapRequest.service.js";
 
 export const postRequest = async (req, res, next) => {
-  const { toMarketItemId } = req.body;
   try {
     const response = await SwapRequestService.createProduct(
       req.body,
-      req.user.id,
-      toMarketItemId
+      req.user.id
     );
     return res
       .status(HttpStatusCodes.CREATED)
@@ -58,10 +56,23 @@ export const getToRequest = async (req, res, next) => {
     }
   };
 
+   export const verifyRequest = async (req, res, next) => {
+    const {requestId} = req.body;
+    try {
+      const response = await SwapRequestService.verifyRequest(req.user.id,requestId);
+      return res
+        .status(HttpStatusCodes.CREATED)
+        .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+    } catch (error) {
+      next(error);
+    }
+  };
+
 export default {
   postRequest,
   getFromRequest,
   getToRequest,
   getFromNotVerifiedRequest,
-  getToNotVerifiedRequest
+  getToNotVerifiedRequest,
+  verifyRequest
 };

@@ -14,10 +14,10 @@ router
 
   router
   .route("/getfromnotverified")
-  .get(controller.getFromNotVerifiedRequest,);
+  .get(controller.getFromNotVerifiedRequest).put(controller.verifyRequest);
 
 router
   .route("/gettonotverified")
-  .get(controller.getToNotVerifiedRequest);
+  .get(controller.getToNotVerifiedRequest).put(controller.verifyRequest);
 
 export default router;

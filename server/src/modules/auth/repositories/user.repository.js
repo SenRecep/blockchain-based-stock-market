@@ -22,7 +22,7 @@ class UserRepository {
     user.password = await this.hashPassword(user.password);
     const createdUser=await User.create(user);
     const foundRole= await role.findOne({name:RoleInfo.user});
-    const wallets = await WalletsSchema.create({});
+    const wallets = await WalletsSchema.create({user:createdUser.id});
 
     await User.findByIdAndUpdate(
       createdUser.id,

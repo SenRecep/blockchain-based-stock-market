@@ -1,8 +1,8 @@
 import { ApiError } from "../../../common/apiError.js";
 import HttpStatusCodes from "http-status-codes";
-import { getLocalDate } from "../../../helpers/localTimeHelper.js";
 import MarketItemsSchema from "../../../models/MarketItems.schema.js";
 import UserRepository from "../../auth/repositories/user.repository.js";
+import ProductsSchema from "../../../models/Products.schema.js";
 
 class MarketItemsRepository {
   async getOtherMarketItems(id) {
@@ -13,14 +13,11 @@ class MarketItemsRepository {
         HttpStatusCodes.NOT_FOUND,
         "marketrepository->getothermarket"
       );
+    const product = await ProductsSchema.find({ wallet: { $ne: user.wallet } });
     const foundProducts = await MarketItemsSchema.find({
       inProgress: 1,
-    }).populate([
-      {
-        path: "product",
-        $project: { select: { wallet: { $ne: user.wallet } } },
-      },
-    ]);
+      product:product.map(x=>x.id)
+    }).populate("product");
     return foundProducts;
   }
 
@@ -32,12 +29,11 @@ class MarketItemsRepository {
         HttpStatusCodes.NOT_FOUND,
         "marketrepository->getusermarket"
       );
+      const product = await ProductsSchema.find({ wallet:  user.wallet});
     const foundProducts = await MarketItemsSchema.find({
       inProgress: 1,
-    }).populate({
-      path: "product",
-      select: { wallet: user.wallet },
-    });
+      product:product.map(x=>x.id)
+    }).populate("product");
     return foundProducts;
   }
   async getById(id) {
@@ -45,7 +41,6 @@ class MarketItemsRepository {
   }
 
   async createMarketItems(id) {
-    console.log(id);
     const addMarketItems = await MarketItemsSchema.create({
       inProgress: 1,
       product: id,

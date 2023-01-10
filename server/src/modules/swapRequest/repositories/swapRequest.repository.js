@@ -4,9 +4,10 @@ import SwapRequestSchema from "../../../models/SwapRequest.schema.js";
 import User from "../../auth/models/User.schema.js";
 import MarketItemsSchema from "../../../models/MarketItems.schema.js";
 import UserRepository from "../../auth/repositories/user.repository.js";
+import ProductsSchema from "../../../models/Products.schema.js";
 
 class SwapRequestRepository {
-  async createProduct(product, id, toMarketItemId) {
+  async createProduct(product, id) {
     const found = await UserRepository.getById(id);
     if (!found)
       throw new ApiError(
@@ -14,21 +15,13 @@ class SwapRequestRepository {
         HttpStatusCodes.NOT_FOUND,
         "productrepository->create"
       );
-    const marketItem = await MarketItemsSchema.findOne({}).populate({
-      path: "product",
-      select: { id: toMarketItemId },
-    });
-    if (!marketItem)
-      throw new ApiError(
-        "Not found user",
-        HttpStatusCodes.NOT_FOUND,
-        "productrepository->create"
-      );
-    const user = await User.findOne({ wallet: marketItem.wallet });
+    const marketItemId = await MarketItemsSchema.findById(product.toMarketItemId);
+    const productId = await ProductsSchema.findOne({id:marketItemId.product});
+    const userWalletId = await User.findOne({ wallet: productId.wallet });
     const createRequest = await SwapRequestSchema.create({
       ...product,
-      fromUserId: found.id,
-      toUserId: user.id,
+      fromUserId: found.id, 
+      toUserId: userWalletId.id,
       verify: false,
     });
     return createRequest;
@@ -77,7 +70,25 @@ class SwapRequestRepository {
     const swapRequest = await SwapRequestSchema.find({toUserId:found.id,verify:false});
     return swapRequest;
   }
+  async verifyRequest(id,requestId){
+    const found = await UserRepository.getById(id);
+    if (!found)
+      throw new ApiError(
+        "Not found user",
+        HttpStatusCodes.NOT_FOUND,
+        "productrepository->create"
+      );
+    const updatedVerify = await SwapRequestSchema.findOneAndUpdate({requestId},{verify:true});
+    const getFromMarketId = await MarketItemsSchema.findById(updatedVerify.fromMarketItemId);
+    const getToMarketId = await MarketItemsSchema.findById(updatedVerify.toMarketItemId);
+    const getFromUserWalletId = await User.findById(updatedVerify.fromUserId);
+    const getToUserWalletId = await MarketItemsSchema.findById(updatedVerify.toUserId)
+    const updateFromUserId = await ProductsSchema.findOneAndUpdate(getFromMarketId,{wallet:getFromUserWalletId});
+    const swapRequest = await ProductsSchema.findOneAndUpdate(getToMarketId,{wallet:getToUserWalletId});
+    return updatedVerify;
+  }
 }
+
 
 const instance = new SwapRequestRepository();
 
