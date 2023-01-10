@@ -25,7 +25,7 @@ router
   .get(controller.getByIdRequest)
   .delete(
     requiredAuthMiddleware,
-    requiredRoleMiddleware([RoleInfo.admin, RoleInfo.assistant]),
+    requiredRoleMiddleware([RoleInfo.admin]),
     controller.deleteByIdRequest
   );
 

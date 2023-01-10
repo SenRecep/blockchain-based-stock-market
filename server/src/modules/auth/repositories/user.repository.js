@@ -2,6 +2,9 @@ import User from "../models/User.schema.js";
 import bcrypt from "bcrypt";
 import { ApiError } from "../../../common/apiError.js";
 import HttpStatusCodes from "http-status-codes";
+import  WalletsSchema  from "../../../models/Wallets.schema.js";
+import role from "../../../models/Roles.schema.js";
+import { RoleInfo } from "../../../constants/roleInfo.js";
 
 class UserRepository {
   async hashPassword(password) {
@@ -17,13 +20,25 @@ class UserRepository {
         "userrepository->signup"
       );
     user.password = await this.hashPassword(user.password);
-    return User.create(user);
+    const createdUser=await User.create(user);
+    const foundRole= await role.findOne({name:RoleInfo.user});
+    const wallets = await WalletsSchema.create({});
+
+    await User.findByIdAndUpdate(
+      createdUser.id,
+      {
+          wallet: wallets.id,
+          role:foundRole.id
+      },
+      { new: true, useFindAndModify: false }
+    );
+    return createdUser
   }
   ifExistUser(email) {
     return this.getByEmail(email);
   }
   getByEmail(email) {
-    return User.findOne({ email: email });
+    return User.findOne({ email: email }).populate("role");
   }
   getAllByRole(role) {
     return User.find({ role });

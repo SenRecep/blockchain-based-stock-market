@@ -14,3 +14,37 @@ export const createAssistant = async (req, res,next) => {
     next(error);
   }
 };
+
+export const updateVerifyRequest = async (req, res,next) => {
+  const {id} = req.body;
+  try {
+    const data = await adminService.updateVerify(id);
+    res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllPendingProductsRequest = async (req, res,next) => {
+  try {
+    const data = await adminService.getAllPendingProducts();
+    res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllProductsRequest = async (req, res,next) => {
+  try {
+    const data = await adminService.getAllProducts();
+    res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
+};

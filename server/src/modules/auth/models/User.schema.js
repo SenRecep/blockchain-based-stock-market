@@ -16,26 +16,26 @@ export const UserSchema = new Schema({
     required: [true, "Email is required"],
     unique: true,
   },
-  phone:{
-    type:String,
-    required:[true, "Phone number is required"]
-  },
   password: {
     type: String,
     required: [true, "Password is required"],
   },
-  studentNumber: {
+  identityNumber: {
     type: String,
-    required: [true, "Student Number is required"],
+    required: [true, "Identity number is required"],
     unique: true,
   },
   role: {
-    type: String,
-    enum: [RoleInfo.admin, RoleInfo.assistant, RoleInfo.student],
-    default: RoleInfo.student,
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"roles",
   },
-  registrationToken: {
-    type: Schema.Types.Mixed,
+  wallet: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"wallets"
+  },
+  publicKey: {
+    type: String,
+    required : false
   }
 });
 

@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 
 class JwtService {
   maxAge = 3 * 24 * 60 * 60;
-  createToken = ({ id, email, name, surname, studentNumber, role }) => {
+  createToken = ({ id, email, name, surname, walletId, identityNumber ,role}) => {
     return jwt.sign(
-      { id: id.toString(), email, name, surname, studentNumber, role },
+      { id: id.toString(), email, name, surname, walletId, identityNumber,role:role.name },
       process.env.JWT_SECRET,
       {
         expiresIn: this.maxAge,

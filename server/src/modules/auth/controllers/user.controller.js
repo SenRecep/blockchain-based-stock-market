@@ -15,8 +15,7 @@ export const getAllRequest = async (req, res) => {
 };
 
 export const postRequest = async (req, res, next) => {
-  const isAdmin = req.user?.role == RoleInfo.admin || false;
-  const model = new UserCreateDto(req.body, isAdmin);
+  const model = new UserCreateDto(req.body);
   try {
     const response = await userService.createUser(model);
     return res
