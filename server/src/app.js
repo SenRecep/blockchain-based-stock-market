@@ -1,7 +1,6 @@
 import * as dotenv from "dotenv";
 import express from "express";
 import { usePlugins, useMongoDB } from "./plugins/index.js";
-import bodyParser from "body-parser";
 import multer from "multer";
 const upload = multer();
 

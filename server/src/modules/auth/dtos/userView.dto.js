@@ -6,10 +6,9 @@ class UserViewDto {
     this.name = user.name;
     this.surname = user.surname;
     this.email = user.email;
-    this.studentNumber = user.studentNumber;
+    this.identityNumber = user.identityNumber;
     this.registrationToken = user.registrationToken;
     this.fullName = `${this.name} ${this.surname}`;
-    this.phone = user.phone;
   }
 }
 

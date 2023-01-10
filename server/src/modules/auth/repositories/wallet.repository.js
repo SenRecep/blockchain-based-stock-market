@@ -8,17 +8,6 @@ class WalletsRepository {
   getWalletById(id) {
     return WalletsSchema.findById(id);
   } 
-
-//   addMoney(userId) {
-//     const found = UserRepository.ifExistUser(user.userId);
-//     const add = WalletsSchema.findByIdAndUpdate(
-//       found.walletId,
-//       {
-//         money,
-//       },
-//       { new: true, useFindAndModify: false }
-//     );
-//   }
 }
 
 const instance = new WalletsRepository();

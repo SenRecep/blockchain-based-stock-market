@@ -1,17 +1,30 @@
 import { ApiError } from "../../../common/apiError.js";
 import HttpStatusCodes from "http-status-codes";
-import { getLocalDate } from "../../../helpers/localTimeHelper.js";
-import User from "../models/User.schema.js";
 import UserRepository from "../repositories/user.repository.js";
 import MoneyRequestSchema from "../../../models/MoneyRequest.schema.js";
 
-class WalletsRepository {
-  getHistory(id) {
-    return MoneyRequestSchema.findById(id);
+class MoneyRequestRepository {
+  async getHistory(id) {
+    return await MoneyRequestSchema.findById(id);
   } 
+  async createRequest(id,money) {
+    const found = await UserRepository.getById(id);
+    if (!found)
+      throw new ApiError(
+        "Not found user",
+        HttpStatusCodes.NOT_FOUND,
+        "moneyrepository->create"
+      );
+    const addMoney = await MoneyRequestSchema.create({
+      ...money,
+      verify:false,
+      user:found.id
+    });
+    return addMoney;
+  }
 }
 
-const instance = new WalletsRepository();
+const instance = new MoneyRequestRepository();
 
 export default instance;
 

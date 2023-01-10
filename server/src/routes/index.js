@@ -8,6 +8,8 @@ import {
 import { RoleInfo } from "../constants/roleInfo.js";
 import productRoute from "../modules/product/routers/product.route.js";
 import marketRoute from "../modules/market/routers/market.route.js";
+import moneyRequestRoute from "../modules/auth/routers/moneyRequest.route.js";
+import swapRequestRoute from "../modules/swapRequest/routers/swapRequest.route.js";
 
 export const useRoutes = (app) => {
   app.use("/api/auth", authRoute);
@@ -18,4 +20,6 @@ export const useRoutes = (app) => {
   );
   app.use("/api/products", productRoute);
   app.use("/api/market", marketRoute);
+  app.use("/api/moneyrequest", moneyRequestRoute);
+  app.use("/api/swaprequest", swapRequestRoute);
 };

@@ -32,10 +32,6 @@ export const UserSchema = new Schema({
   wallet: {
     type: mongoose.Schema.Types.ObjectId,
     ref:"wallets"
-  },
-  publicKey: {
-    type: String,
-    required : false
   }
 });
 

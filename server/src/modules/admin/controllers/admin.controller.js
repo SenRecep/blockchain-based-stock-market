@@ -27,6 +27,18 @@ export const updateVerifyRequest = async (req, res,next) => {
   }
 };
 
+export const updateMoneyVerify = async (req, res,next) => {
+  const {id} = req.body;
+  try {
+    const data = await adminService.updateMoneyVerify(id);
+    res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getAllPendingProductsRequest = async (req, res,next) => {
   try {
     const data = await adminService.getAllPendingProducts();
@@ -47,4 +59,14 @@ export const getAllProductsRequest = async (req, res,next) => {
   } catch (error) {
     next(error);
   }
+};
+  export const getMoneyRequest = async (req, res,next) => {
+    try {
+      const data = await adminService.getAllMoneyRequest();
+      res
+        .status(HttpStatusCodes.OK)
+        .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+    } catch (error) {
+      next(error);
+    }
 };

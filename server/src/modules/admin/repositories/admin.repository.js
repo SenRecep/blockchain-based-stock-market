@@ -1,6 +1,9 @@
 import { RoleInfo } from "../../../constants/roleInfo.js";
 import userRepository from "../../auth/repositories/user.repository.js";
 import ProductsSchema from "../../../models/Products.schema.js";
+import MoneyRequestSchema from "../../../models/MoneyRequest.schema.js";
+import WalletsSchema from "../../../models/Wallets.schema.js";
+import User from "../../auth/models/User.schema.js";
 
 class AdminRepository {
   createAssistant(user) {
@@ -15,9 +18,18 @@ class AdminRepository {
     );
     return update;
   }
-
-  // wallet: { $ne: found.wallet },
-
+  async updateMoneyVerify(id) {
+    const update = await MoneyRequestSchema.findByIdAndUpdate(
+      id,
+      { verify: true },
+      { new: true }
+    );
+    const user = await User.findById(update.user);
+    const addMoney = await WalletsSchema.findByIdAndUpdate(user.wallet,
+      { $inc: { money:update.amount }
+    });
+    return update;
+  }
   async getAllPendingProducts() {
     const products = await ProductsSchema.find({
       verify: false,
@@ -27,6 +39,12 @@ class AdminRepository {
   async getAllProducts() {
     const products = await ProductsSchema.find({});
     return products;
+  }
+  async getAllMoneyRequest() {
+    const money = await MoneyRequestSchema.find({
+      verify: false,
+    }).populate("user");
+    return money;
   }
 }
 

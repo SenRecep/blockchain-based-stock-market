@@ -50,7 +50,6 @@ export const getByIdRequest = async  (req, res, next) => {
 };
 export const updateProductRequest = async  (req, res, next) => {
   const {id} = req.body;
-  console.log(req.body);
   try {
     const response = await ProductService.updateProduct(req.body,id);
     return res

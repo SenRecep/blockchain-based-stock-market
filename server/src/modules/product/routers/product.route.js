@@ -14,9 +14,3 @@ router.route("/user/pending").get(controller.getUserPendingProductsRequest);
 
 router.route("/:id").get(controller.getByIdRequest);
 export default router;
-
-
-/** 
- * para ekleme
- * admine pra ekleme isteği eklenince true olacak ve ekranda gözükmeyecek
- */

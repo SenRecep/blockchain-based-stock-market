@@ -1,5 +1,6 @@
 import adminRepository from "../repositories/admin.repository.js";
 import UserViewDto from "../../auth/dtos/userView.dto.js";
+import MoneyRequestViewDto from "../../auth/dtos/moneyRequest.dto.js";
 
 class AdminService {
   async createAssistant(user) {
@@ -10,6 +11,10 @@ class AdminService {
     const update = await adminRepository.updateVerify(id);
     return update;
   }
+  async updateMoneyVerify(id) {
+    const update = await adminRepository.updateMoneyVerify(id);
+    return update;
+  }
   async getAllPendingProducts() {
     const product = await adminRepository.getAllPendingProducts();
     return product;
@@ -17,6 +22,11 @@ class AdminService {
   async getAllProducts() {
     const product = await adminRepository.getAllProducts();
     return product;
+  }
+  async getAllMoneyRequest() {
+    const money = await adminRepository.getAllMoneyRequest();
+    const model = money.map((s) => new MoneyRequestViewDto(s));
+    return model;
   }
 }
 
