@@ -26,9 +26,11 @@ const state = ref({
 const loadingStore = useLoadingStore();
 onMounted(async () => {
   loadingStore.isLoading = true;
-  const response = (await productsHttpRepository.getProducts(
+  const response = (await productsHttpRepository.getAllProducts(
     () => (loadingStore.isLoading = false)
   )) as ServiceResponse<Product[]>;
+
+  console.log(response);
 
   if (!response.isSuccessful) {
     return;
@@ -37,13 +39,16 @@ onMounted(async () => {
   state.value.products = response.data!;
 });
 
-const createMarketItem = async (id: string) => {
-  console.log(id);
+const verifyProduct = async (id: string) => {
   loadingStore.isLoading = true;
-  const response = (await productsHttpRepository.createMarketItem(
+  console.log(id);
+
+  const response = (await productsHttpRepository.verifyProduct(
     id,
     () => (loadingStore.isLoading = false)
   )) as ServiceResponse<NoContentResponse>;
+
+  console.log(response);
 
   if (!response.isSuccessful) {
     return;
@@ -73,13 +78,7 @@ const createMarketItem = async (id: string) => {
         </v-card-text>
 
         <v-card-actions>
-          <v-btn
-            v-if="item.verify"
-            color="orange"
-            @click="createMarketItem(item.id)"
-          >
-            Create Market Item
-          </v-btn>
+          <v-btn color="green" @click="verifyProduct(item.id)"> Verify </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>

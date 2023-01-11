@@ -43,6 +43,12 @@ const items = computed(() =>
       path: "/product/list",
       isShow: isShow("/product/list"),
     },
+    {
+      title: "Verification",
+      icon: "mdi-format-list-bulleted",
+      path: "/products/verify",
+      isShow: isShow("/products/verify"),
+    },
   ].filter((x) => x.isShow == undefined || x.isShow)
 );
 </script>

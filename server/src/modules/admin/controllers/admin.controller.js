@@ -3,7 +3,7 @@ import adminService from "../services/admin.service.js";
 import HttpStatusCodes from "http-status-codes";
 import { ServiceResponse } from "../../../common/serviceResponse.js";
 
-export const createAssistant = async (req, res,next) => {
+export const createAssistant = async (req, res, next) => {
   const addAAssistant = new UserCreateDto(req.body);
   try {
     const data = await adminService.createAssistant(addAAssistant);
@@ -15,8 +15,9 @@ export const createAssistant = async (req, res,next) => {
   }
 };
 
-export const updateVerifyRequest = async (req, res,next) => {
-  const {id} = req.body;
+export const updateVerifyRequest = async (req, res, next) => {
+  console.log(req.body);
+  const { id } = req.body;
   try {
     const data = await adminService.updateVerify(id);
     res
@@ -27,8 +28,8 @@ export const updateVerifyRequest = async (req, res,next) => {
   }
 };
 
-export const updateMoneyVerify = async (req, res,next) => {
-  const {id} = req.body;
+export const updateMoneyVerify = async (req, res, next) => {
+  const { id } = req.body;
   try {
     const data = await adminService.updateMoneyVerify(id);
     res
@@ -39,7 +40,7 @@ export const updateMoneyVerify = async (req, res,next) => {
   }
 };
 
-export const getAllPendingProductsRequest = async (req, res,next) => {
+export const getAllPendingProductsRequest = async (req, res, next) => {
   try {
     const data = await adminService.getAllPendingProducts();
     res
@@ -50,7 +51,7 @@ export const getAllPendingProductsRequest = async (req, res,next) => {
   }
 };
 
-export const getAllProductsRequest = async (req, res,next) => {
+export const getAllProductsRequest = async (req, res, next) => {
   try {
     const data = await adminService.getAllProducts();
     res
@@ -60,13 +61,13 @@ export const getAllProductsRequest = async (req, res,next) => {
     next(error);
   }
 };
-  export const getMoneyRequest = async (req, res,next) => {
-    try {
-      const data = await adminService.getAllMoneyRequest();
-      res
-        .status(HttpStatusCodes.OK)
-        .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
-    } catch (error) {
-      next(error);
-    }
+export const getMoneyRequest = async (req, res, next) => {
+  try {
+    const data = await adminService.getAllMoneyRequest();
+    res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
 };

@@ -1,6 +1,7 @@
 import adminRepository from "../repositories/admin.repository.js";
 import UserViewDto from "../../auth/dtos/userView.dto.js";
 import MoneyRequestViewDto from "../../auth/dtos/moneyRequest.dto.js";
+import UserProductsViewDto from "../../product/dtos/userProducts.dto.js";
 
 class AdminService {
   async createAssistant(user) {
@@ -16,8 +17,8 @@ class AdminService {
     return update;
   }
   async getAllPendingProducts() {
-    const product = await adminRepository.getAllPendingProducts();
-    return product;
+    const products = await adminRepository.getAllPendingProducts();
+    return products.map((x) => new UserProductsViewDto(x));
   }
   async getAllProducts() {
     const product = await adminRepository.getAllProducts();

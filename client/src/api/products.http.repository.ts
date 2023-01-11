@@ -12,6 +12,7 @@ export interface Product {
   description: string;
   image: string;
   amount: number;
+  verify: boolean;
 }
 
 export interface MarketItem {
@@ -32,6 +33,9 @@ export class ProductsHttpRepository extends HttpRepositoryBase {
   getProducts(callback: ((data: any) => void) | undefined = undefined) {
     return this.send(axios.get("/products/user"), callback);
   }
+  getAllProducts(callback: ((data: any) => void) | undefined = undefined) {
+    return this.send(axios.get("/admin"), callback);
+  }
   createMarketItem(
     id: string,
     callback: ((data: any) => void) | undefined = undefined
@@ -39,6 +43,18 @@ export class ProductsHttpRepository extends HttpRepositoryBase {
     return this.send(
       axios.post("/market", {
         product: id,
+      }),
+      callback
+    );
+  }
+
+  verifyProduct(
+    id: string,
+    callback: ((data: any) => void) | undefined = undefined
+  ) {
+    return this.send(
+      axios.put("/admin", {
+        id,
       }),
       callback
     );

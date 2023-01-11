@@ -3,10 +3,10 @@ import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    name: "assistan-create",
-    path: "/admin/assistant-create",
+    name: "product-verify",
+    path: "/products/verify",
     meta: { requiresAuth: true, roles: [Roles.admin] },
-    redirect: { name: "register" },
+    component: () => import("@/modules/admin/views/ProductList.vue"),
   },
 ];
 

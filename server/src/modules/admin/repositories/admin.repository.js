@@ -16,6 +16,7 @@ class AdminRepository {
       { verify: true },
       { new: true }
     );
+    console.log(update);
     return update;
   }
   async updateMoneyVerify(id) {
@@ -25,8 +26,8 @@ class AdminRepository {
       { new: true }
     );
     const user = await User.findById(update.user);
-    const addMoney = await WalletsSchema.findByIdAndUpdate(user.wallet,
-      { $inc: { money:update.amount }
+    const addMoney = await WalletsSchema.findByIdAndUpdate(user.wallet, {
+      $inc: { money: update.amount },
     });
     return update;
   }
