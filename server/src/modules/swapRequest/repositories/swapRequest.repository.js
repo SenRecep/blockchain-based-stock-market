@@ -117,15 +117,29 @@ class SwapRequestRepository {
     });
     return updatedVerify;
   }
+  // async getRequest(id) {
+  //   const swapId = await SwapRequestSchema.findById(id);
+  //   const fromMarketItem = await MarketItemsSchema.findById(swapId.fromMarketItemId);
+  //   console.log(fromMarketItem);
+  //   const toMarketItem = await MarketItemsSchema.findById(swapId.toMarketItemId);
+  //   console.log(toMarketItem);
+  //   const fromProductId = await ProductsSchema.findById(fromMarketItem.product);
+  //   const toProductId = await ProductsSchema.findById(toMarketItem.product);
+  //   return {fromProduct:fromProductId,toProduct:toProductId};
+  // }
   async getRequest(id) {
-    const swapId = await SwapRequestSchema.findById(id);
-    const fromMarketItem = await MarketItemsSchema.findById(swapId.fromMarketItemId);
-    console.log(fromMarketItem);
-    const toMarketItem = await MarketItemsSchema.findById(swapId.toMarketItemId);
-    console.log(toMarketItem);
-    const fromProductId = await ProductsSchema.findById(fromMarketItem.product);
-    const toProductId = await ProductsSchema.findById(toMarketItem.product);
-    return {fromProduct:fromProductId,toProduct:toProductId};
+    const result= [];
+    const swaps = await SwapRequestSchema.find({fromUserId:id});
+    for(let i = 0;i<swaps.length;i++){
+      const swap= swaps[i];
+      const fromMarketItem = await MarketItemsSchema.findById(swap.fromMarketItemId);
+      const toMarketItem = await MarketItemsSchema.findById(swap.toMarketItemId);
+      const fromProductId = await ProductsSchema.findById(fromMarketItem.product);
+      const toProductId = await ProductsSchema.findById(toMarketItem.product);
+      result.push({fromProduct:fromProductId,toProduct:toProductId});
+    }
+    
+    return result;
   }
 }
 

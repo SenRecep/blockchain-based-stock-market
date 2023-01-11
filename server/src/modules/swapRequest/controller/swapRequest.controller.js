@@ -68,9 +68,8 @@ export const getToRequest = async (req, res, next) => {
     }
   };
   export const getRequest = async (req, res, next) => {
-    const {id} = req.body;
     try {
-      const response = await SwapRequestService.getRequest(id);
+      const response = await SwapRequestService.getRequest(req.user.id);
       return res
         .status(HttpStatusCodes.CREATED)
         .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
