@@ -15,7 +15,8 @@ import blockchainRoute from "../modules/blockchain/routes/blockchain.route.js";
 export const useRoutes = (app) => {
   app.use("/api/auth", authRoute);
   app.use("/api/users", userRoute);
-  app.use("/api/admin", adminRoute);
+  app.use("/api/admin",requiredAuthMiddleware,
+  requiredRoleMiddleware([RoleInfo.admin]), adminRoute);
   app.use("/api/products", productRoute);
   app.use("/api/market", marketRoute);
   app.use("/api/moneyrequest", moneyRequestRoute);
