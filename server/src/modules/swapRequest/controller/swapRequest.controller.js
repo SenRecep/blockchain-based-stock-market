@@ -67,6 +67,17 @@ export const getToRequest = async (req, res, next) => {
       next(error);
     }
   };
+  export const getRequest = async (req, res, next) => {
+    const {id} = req.body;
+    try {
+      const response = await SwapRequestService.getRequest(id);
+      return res
+        .status(HttpStatusCodes.CREATED)
+        .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+    } catch (error) {
+      next(error);
+    }
+  };
 
 export default {
   postRequest,
@@ -74,5 +85,6 @@ export default {
   getToRequest,
   getFromNotVerifiedRequest,
   getToNotVerifiedRequest,
-  verifyRequest
+  verifyRequest,
+  getRequest
 };

@@ -2,7 +2,7 @@ import express from "express";
 import controller from "../controller/swapRequest.controller.js";
 const router = express.Router();
 
-router.route("/").post(controller.postRequest);
+router.route("/").get(controller.getRequest).post(controller.postRequest);
 
 router
   .route("/getfrom")

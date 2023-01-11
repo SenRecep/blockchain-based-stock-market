@@ -25,6 +25,10 @@ class SwapRequestService {
     const request = await SwapRequestRepository.verifyRequest(id,requestId);
     return request;
   }
+  async getRequest(id){
+    const request = await SwapRequestRepository.getRequest(id);
+    return request;
+  }
 }
 
 const instance = new SwapRequestService();
