@@ -95,8 +95,9 @@ class SwapRequestRepository {
         "productrepository->create"
       );
     const updatedVerify = await SwapRequestSchema.findOneAndUpdate(
-      { id:requestId },
-      { verify: true },{new:true}
+      { id: requestId },
+      { verify: true },
+      { new: true }
     );
     const getFromMarketId = await MarketItemsSchema.findById(
       updatedVerify.fromMarketItemId
@@ -119,13 +120,17 @@ class SwapRequestRepository {
   }
   async getRequest(id) {
     const swapId = await SwapRequestSchema.findById(id);
-    const fromMarketItem = await MarketItemsSchema.findById(swapId.fromMarketItemId);
+    const fromMarketItem = await MarketItemsSchema.findById(
+      swapId.fromMarketItemId
+    );
     console.log(fromMarketItem);
-    const toMarketItem = await MarketItemsSchema.findById(swapId.toMarketItemId);
+    const toMarketItem = await MarketItemsSchema.findById(
+      swapId.toMarketItemId
+    );
     console.log(toMarketItem);
     const fromProductId = await ProductsSchema.findById(fromMarketItem.product);
     const toProductId = await ProductsSchema.findById(toMarketItem.product);
-    return {fromProduct:fromProductId,toProduct:toProductId};
+    return { fromProduct: fromProductId, toProduct: toProductId };
   }
 }
 

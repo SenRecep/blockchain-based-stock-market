@@ -4,7 +4,6 @@ import { usePlugins, useMongoDB } from "./plugins/index.js";
 import multer from "multer";
 const upload = multer();
 
-
 dotenv.config();
 
 const app = express();

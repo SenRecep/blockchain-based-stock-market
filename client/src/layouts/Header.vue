@@ -13,7 +13,7 @@ const layoutStore = useLayoutStore();
       ></v-app-bar-nav-icon>
     </template>
 
-    <v-toolbar-title>Labby</v-toolbar-title>
+    <v-toolbar-title>BBGSM</v-toolbar-title>
 
     <template v-slot:append>
       <HeaderAuthMenu />

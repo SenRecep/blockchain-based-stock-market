@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
 import authHttpRepository from "../../../api/auth.http.repository";
@@ -8,16 +8,22 @@ import { ServiceResponse } from "../../../types/ServiceResponse.interface";
 import { useAuthStore } from "../../../stores/auth.store";
 import { useRouter } from "vue-router";
 import { User } from "@/types/User.interface";
+import { initWallet } from "../services/wallet.js";
 const loadingStore = useLoadingStore();
 const authStore = useAuthStore();
 const router = useRouter();
+const dialog = ref(false);
+const dialogContent = ref({
+  publicKey: "",
+  priviteKey: "",
+});
 const formState = reactive({
   email: "",
   password: "",
   name: "",
   surname: "",
-  studentNumber: "",
-  phone: "",
+  identityNumber: "",
+  publicKey: "",
 });
 
 const apiErrors = reactive({
@@ -29,8 +35,7 @@ const rules = computed(() => ({
   password: { required, minLength: minLength(6) },
   name: { required },
   surname: { required },
-  studentNumber: { required },
-  phone: { required },
+  identityNumber: { required },
 }));
 
 const validator = useVuelidate(rules, formState);
@@ -39,6 +44,10 @@ const formSubmit = async () => {
   const validationResults = await validator.value.$validate();
   if (!validationResults) return;
   loadingStore.beginLoading();
+  const wallet = initWallet();
+  dialogContent.value.priviteKey = wallet.privateKey;
+  dialogContent.value.publicKey = wallet.publicKey;
+  formState.publicKey = wallet.publicKey;
   const response = (await authHttpRepository.signUp(formState, () =>
     loadingStore.endLoading()
   )) as ServiceResponse<User>;
@@ -46,12 +55,32 @@ const formSubmit = async () => {
     if (response.error) apiErrors.errors = response.error!.errors;
     return;
   }
+  dialog.value = true;
+};
+
+const agree = () => {
   router.push({ name: authStore.isAuthenticated ? "home" : "login" });
 };
 </script>
 
 <template>
   <v-row no-gutters class="justify-center align-center h-100">
+    <v-dialog v-model="dialog" transition="dialog-top-transition" persistent>
+      <template v-slot:default>
+        <v-card>
+          <v-toolbar title="Bilgileri lütfen kayıt ediniz!"></v-toolbar>
+          <v-card-text>
+            <h4>Public Key: {{ dialogContent.publicKey }}</h4>
+            <h4>Private Key: {{ dialogContent.priviteKey }}</h4>
+          </v-card-text>
+          <v-card-actions class="justify-end">
+            <v-btn color="green-darken-1" variant="text" @click="agree">
+              Agree
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </v-dialog>
     <v-col lg="5" md="8" sm="12">
       <v-card>
         <v-toolbar class="pl-4">
@@ -100,29 +129,15 @@ const formSubmit = async () => {
 
             <v-text-field
               class="mb-4"
-              prepend-icon="mdi-cellphone"
-              placeholder="Your Phone Number"
-              name="phonenumber"
-              label="Phone Number"
-              type="tel"
-              clearable
-              v-model="formState.phone"
-              :error-messages="
-                validator.phone.$errors.map((x) => x.$message.toString())
-              "
-            ></v-text-field>
-
-            <v-text-field
-              class="mb-4"
               prepend-icon="mdi-badge-account-horizontal"
-              placeholder="Your Student Number"
-              name="studentnumber"
-              label="Student Number"
+              placeholder="Your Identity Number"
+              name="identityNUMBER"
+              label="Identity Number"
               type="text"
               clearable
-              v-model="formState.studentNumber"
+              v-model="formState.identityNumber"
               :error-messages="
-                validator.studentNumber.$errors.map((x) =>
+                validator.identityNumber.$errors.map((x) =>
                   x.$message.toString()
                 )
               "
@@ -131,7 +146,7 @@ const formSubmit = async () => {
             <v-text-field
               class="mb-4"
               prepend-icon="mdi-email"
-              placeholder="studentnumber@ogr.cbu.edu.tr"
+              placeholder="mail@domain.com"
               name="email"
               label="Email"
               type="email"

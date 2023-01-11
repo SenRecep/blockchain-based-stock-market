@@ -5,7 +5,7 @@ import router from "@/routers/index";
 const labbyAxios = axios.create({
   withCredentials: false,
   timeout: 20000,
-  baseURL: import.meta.env.VITE_LABBY_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -36,7 +36,7 @@ labbyAxios.interceptors.response.use(
     });
     if (import.meta.env.DEV) console.log(error);
     if (statusCode === 401) {
-      router.push({ name: "login" });
+      router.push({ name: "logout" });
     }
     return Promise.reject(error);
   }
