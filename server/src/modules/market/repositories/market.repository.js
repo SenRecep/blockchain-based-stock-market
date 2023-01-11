@@ -37,7 +37,7 @@ class MarketItemsRepository {
     return foundProducts;
   }
   async getById(id) {
-    return await MarketItemsSchema.findById(id);
+    return await MarketItemsSchema.findById(id).populate("product");;
   }
 
   async createMarketItems(id) {
