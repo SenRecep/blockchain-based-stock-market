@@ -8,8 +8,10 @@ const tx = new Transaction({
   from: wallets["wallet-one"].publicKey,
   to: wallets["wallet-two"].publicKey,
   data: {
-    fromProduct: "1",
-    toProductId: "2",
+    fromUserId: "63be4295418cc1cc425480ba",
+    toUserId: "63be4235418cc1cc4254808d",
+    fromProductId: "63be42b4418cc1cc425480c7",
+    toProductId: "63be4259418cc1cc42548099",
   },
 });
 console.log(tx);
