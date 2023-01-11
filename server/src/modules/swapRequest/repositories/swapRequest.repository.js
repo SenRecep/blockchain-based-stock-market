@@ -130,7 +130,7 @@ class SwapRequestRepository {
   // }
   async getRequest(id) {
     const result= [];
-    const swaps = await SwapRequestSchema.find({fromUserId:id});
+    const swaps = await SwapRequestSchema.find({toUserId:id});
     for(let i = 0;i<swaps.length;i++){
       const swap= swaps[i];
       const fromMarketItem = await MarketItemsSchema.findById(swap.fromMarketItemId);
