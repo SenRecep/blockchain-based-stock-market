@@ -5,6 +5,8 @@ import User from "../../auth/models/User.schema.js";
 import MarketItemsSchema from "../../../models/MarketItems.schema.js";
 import UserRepository from "../../auth/repositories/user.repository.js";
 import ProductsSchema from "../../../models/Products.schema.js";
+import { Transaction } from "../../../../../blockchains/miner-two/block.js";
+import blockchainService from "../services/blockchain.service.js";
 
 class SwapRequestRepository {
   async createProduct(product, id) {
@@ -86,8 +88,8 @@ class SwapRequestRepository {
     });
     return swapRequest;
   }
-  async verifyRequest(id, requestId) {
-    const found = await UserRepository.getById(id);
+  async verifyRequest(data) {
+    const found = await UserRepository.getById(data.id);
     if (!found)
       throw new ApiError(
         "Not found user",
@@ -95,7 +97,7 @@ class SwapRequestRepository {
         "productrepository->create"
       );
     const updatedVerify = await SwapRequestSchema.findByIdAndUpdate(
-       requestId ,
+      data.requestId,
       { verify: true },
       { new: true }
     );
@@ -105,41 +107,61 @@ class SwapRequestRepository {
     const getToMarketId = await MarketItemsSchema.findById(
       updatedVerify.toMarketItemId
     );
-    const getFromUserWalletId = await User.findById(updatedVerify.fromUserId);
+    const getFromUserWalletId = await User.findById(
+      updatedVerify.fromUserId
+    ).populate("wallet");
     const getToUserWalletId = await User.findById(
       updatedVerify.toUserId
-    );
+    ).populate("wallet");
     const updateFromUserId = await ProductsSchema.findOneAndUpdate(
-      getFromMarketId.id,
-      { wallet: getToUserWalletId.wallet }
+      getFromMarketId.product,
+      { wallet: getToUserWalletId.wallet.id }
     );
-    const swapRequest = await ProductsSchema.findOneAndUpdate(getToMarketId.id, {
-      wallet: getFromUserWalletId.wallet,
+    const swapRequest = await ProductsSchema.findOneAndUpdate(
+      getToMarketId.product,
+      {
+        wallet: getFromUserWalletId.wallet.id,
+      }
+    );
+    var tx = new Transaction({
+      from: getToUserWalletId.wallet.publicKey,
+      to: getFromUserWalletId.wallet.publicKey,
+      data: {
+        fromUserId: getFromUserWalletId.id,
+        toUserId: getToUserWalletId.id,
+        fromProductId: updateFromUserId.id,
+        toProductId: swapRequest.id,
+      },
     });
+    tx.sign(data.privateKey);
+
+    await blockchainService.sendTransaction(tx);
     return updatedVerify;
   }
-  // async getRequest(id) {
-  //   const swapId = await SwapRequestSchema.findById(id);
-  //   const fromMarketItem = await MarketItemsSchema.findById(swapId.fromMarketItemId);
-  //   console.log(fromMarketItem);
-  //   const toMarketItem = await MarketItemsSchema.findById(swapId.toMarketItemId);
-  //   console.log(toMarketItem);
-  //   const fromProductId = await ProductsSchema.findById(fromMarketItem.product);
-  //   const toProductId = await ProductsSchema.findById(toMarketItem.product);
-  //   return {fromProduct:fromProductId,toProduct:toProductId};
-  // }
+
   async getRequest(id) {
-    const result= [];
-    const swaps = await SwapRequestSchema.find({toUserId:id});
-    for(let i = 0;i<swaps.length;i++){
-      const swap= swaps[i];
-      const fromMarketItem = await MarketItemsSchema.findById(swap.fromMarketItemId);
-      const toMarketItem = await MarketItemsSchema.findById(swap.toMarketItemId);
-      const fromProductId = await ProductsSchema.findById(fromMarketItem.product);
+    const result = [];
+    const swaps = await SwapRequestSchema.find({ toUserId: id });
+    for (let i = 0; i < swaps.length; i++) {
+      const swap = swaps[i];
+      const fromMarketItem = await MarketItemsSchema.findById(
+        swap.fromMarketItemId
+      );
+      const toMarketItem = await MarketItemsSchema.findById(
+        swap.toMarketItemId
+      );
+      const fromProductId = await ProductsSchema.findById(
+        fromMarketItem.product
+      );
       const toProductId = await ProductsSchema.findById(toMarketItem.product);
-      result.push({id:swap.id,fromProduct:fromProductId,toProduct:toProductId,verify:swap.verify});
+      result.push({
+        id: swap.id,
+        fromProduct: fromProductId,
+        toProduct: toProductId,
+        verify: swap.verify,
+      });
     }
-    
+
     return result;
   }
 }

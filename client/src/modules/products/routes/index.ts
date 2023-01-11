@@ -3,16 +3,16 @@ import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    name: "swap",
-    path: "/swap/:marketItemId",
+    name: "product-create",
+    path: "/product/create",
     meta: { requiresAuth: true },
-    component: () => import("@/modules/swap/views/Index.vue"),
+    component: () => import("@/modules/products/views/ProductCreate.vue"),
   },
   {
-    name: "requests",
-    path: "/requests",
+    name: "product-list",
+    path: "/product/list",
     meta: { requiresAuth: true },
-    component: () => import("@/modules/swap/views/Requests.vue"),
+    component: () => import("@/modules/products/views/ProductList.vue"),
   },
 ];
 

@@ -37,6 +37,12 @@ const items = computed(() =>
       path: "/product/create",
       isShow: isShow("/product/create"),
     },
+    {
+      title: "Product List",
+      icon: "mdi-format-list-bulleted",
+      path: "/product/list",
+      isShow: isShow("/product/list"),
+    },
   ].filter((x) => x.isShow == undefined || x.isShow)
 );
 </script>

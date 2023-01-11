@@ -26,57 +26,66 @@ export const getFromRequest = async (req, res, next) => {
   }
 };
 export const getToRequest = async (req, res, next) => {
-    try {
-      const response = await SwapRequestService.getToRequest(req.user.id);
-      return res
-        .status(HttpStatusCodes.CREATED)
-        .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
-    } catch (error) {
-      next(error);
-    }
-  };
-  export const getFromNotVerifiedRequest = async (req, res, next) => {
-    try {
-      const response = await SwapRequestService.getFromNotVerifiedRequest(req.user.id);
-      return res
-        .status(HttpStatusCodes.CREATED)
-        .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
-    } catch (error) {
-      next(error);
-    }
-  };
-  export const getToNotVerifiedRequest = async (req, res, next) => {
-    try {
-      const response = await SwapRequestService.getToNotVerifiedRequest(req.user.id);
-      return res
-        .status(HttpStatusCodes.CREATED)
-        .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
-    } catch (error) {
-      next(error);
-    }
-  };
+  try {
+    const response = await SwapRequestService.getToRequest(req.user.id);
+    return res
+      .status(HttpStatusCodes.CREATED)
+      .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+  } catch (error) {
+    next(error);
+  }
+};
+export const getFromNotVerifiedRequest = async (req, res, next) => {
+  try {
+    const response = await SwapRequestService.getFromNotVerifiedRequest(
+      req.user.id
+    );
+    return res
+      .status(HttpStatusCodes.CREATED)
+      .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+  } catch (error) {
+    next(error);
+  }
+};
+export const getToNotVerifiedRequest = async (req, res, next) => {
+  try {
+    const response = await SwapRequestService.getToNotVerifiedRequest(
+      req.user.id
+    );
+    return res
+      .status(HttpStatusCodes.CREATED)
+      .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+  } catch (error) {
+    next(error);
+  }
+};
 
-   export const verifyRequest = async (req, res, next) => {
-    const {requestId} = req.body;
-    try {
-      const response = await SwapRequestService.verifyRequest(req.user.id,requestId);
-      return res
-        .status(HttpStatusCodes.CREATED)
-        .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
-    } catch (error) {
-      next(error);
-    }
+export const verifyRequest = async (req, res, next) => {
+  const { requestId, privateKey } = req.body;
+  const data = {
+    requestId,
+    privateKey,
+    id: req.user.id,
   };
-  export const getRequest = async (req, res, next) => {
-    try {
-      const response = await SwapRequestService.getRequest(req.user.id);
-      return res
-        .status(HttpStatusCodes.CREATED)
-        .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
-    } catch (error) {
-      next(error);
-    }
-  };
+  try {
+    const response = await SwapRequestService.verifyRequest(data);
+    return res
+      .status(HttpStatusCodes.CREATED)
+      .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+  } catch (error) {
+    next(error);
+  }
+};
+export const getRequest = async (req, res, next) => {
+  try {
+    const response = await SwapRequestService.getRequest(req.user.id);
+    return res
+      .status(HttpStatusCodes.CREATED)
+      .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default {
   postRequest,
@@ -85,5 +94,5 @@ export default {
   getFromNotVerifiedRequest,
   getToNotVerifiedRequest,
   verifyRequest,
-  getRequest
+  getRequest,
 };

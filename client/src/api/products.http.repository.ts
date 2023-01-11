@@ -7,6 +7,7 @@ export interface Swap {
 }
 
 export interface Product {
+  id: string;
   name: string;
   description: string;
   image: string;
@@ -26,6 +27,21 @@ export class ProductsHttpRepository extends HttpRepositoryBase {
   }
   getUser(callback: ((data: any) => void) | undefined = undefined) {
     return this.send(axios.get("/market/user"), callback);
+  }
+
+  getProducts(callback: ((data: any) => void) | undefined = undefined) {
+    return this.send(axios.get("/products/user"), callback);
+  }
+  createMarketItem(
+    id: string,
+    callback: ((data: any) => void) | undefined = undefined
+  ) {
+    return this.send(
+      axios.post("/market", {
+        product: id,
+      }),
+      callback
+    );
   }
 
   createProduct(

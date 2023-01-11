@@ -1,8 +1,8 @@
 import SwapRequestRepository from "../repositories/swapRequest.repository.js";
 
 class SwapRequestService {
-  async createProduct(product,id) {
-    const created = await SwapRequestRepository.createProduct(product,id);
+  async createProduct(product, id) {
+    const created = await SwapRequestRepository.createProduct(product, id);
     return created;
   }
   async getFromRequest(id) {
@@ -21,11 +21,11 @@ class SwapRequestService {
     const request = await SwapRequestRepository.getToNotVerifiedRequest(id);
     return request;
   }
-  async verifyRequest(id,requestId){
-    const request = await SwapRequestRepository.verifyRequest(id,requestId);
+  async verifyRequest(data) {
+    const request = await SwapRequestRepository.verifyRequest(data);
     return request;
   }
-  async getRequest(id){
+  async getRequest(id) {
     const request = await SwapRequestRepository.getRequest(id);
     return request;
   }

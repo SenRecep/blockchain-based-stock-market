@@ -54,8 +54,8 @@ const formSubmit = async () => {
     <v-col lg="5" md="8" sm="12">
       <v-card>
         <v-toolbar class="pl-4">
-          <v-icon icon="mdi-account-plus"></v-icon>
-          <v-toolbar-title>Register</v-toolbar-title>
+          <v-icon icon="mdi-tag-text-outline"></v-icon>
+          <v-toolbar-title>Create Product</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
           <v-alert
@@ -110,7 +110,7 @@ const formSubmit = async () => {
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                prepend-icon="mdi-account-plus"
+                prepend-icon="mdi-tag-text-outline"
                 type="submit"
                 variant="outlined"
                 >Create</v-btn

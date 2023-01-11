@@ -16,7 +16,7 @@ class MarketItemsRepository {
     const product = await ProductsSchema.find({ wallet: { $ne: user.wallet } });
     const foundProducts = await MarketItemsSchema.find({
       inProgress: 1,
-      product:product.map(x=>x.id)
+      product: product.map((x) => x.id),
     }).populate("product");
     return foundProducts;
   }
@@ -29,21 +29,24 @@ class MarketItemsRepository {
         HttpStatusCodes.NOT_FOUND,
         "marketrepository->getusermarket"
       );
-      const product = await ProductsSchema.find({ wallet:  user.wallet});
+    const product = await ProductsSchema.find({ wallet: user.wallet });
     const foundProducts = await MarketItemsSchema.find({
       inProgress: 1,
-      product:product.map(x=>x.id)
+      product: product.map((x) => x.id),
     }).populate("product");
     return foundProducts;
   }
   async getById(id) {
-    return await MarketItemsSchema.findById(id).populate("product");;
+    return await MarketItemsSchema.findById(id).populate("product");
   }
 
   async createMarketItems(id) {
     const addMarketItems = await MarketItemsSchema.create({
       inProgress: 1,
       product: id,
+    });
+    await ProductsSchema.findByIdAndUpdate(id, {
+      verify: true,
     });
     return addMarketItems;
   }

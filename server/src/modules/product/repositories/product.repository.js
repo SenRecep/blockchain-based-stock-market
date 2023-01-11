@@ -30,7 +30,7 @@ class ProductRepository {
         HttpStatusCodes.NOT_FOUND,
         "userrepository->getuserproduct"
       );
-    return await ProductsSchema.find({ wallet: found.wallet});
+    return await ProductsSchema.find({ wallet: found.wallet, verify: false });
   }
   async getUserPendingProducts(id) {
     const found = await UserRepository.getById(id);
@@ -47,7 +47,7 @@ class ProductRepository {
   }
   async updateProduct(product, id) {
     const updateProduct = await ProductsSchema.findByIdAndUpdate(id, {
-    ...product
+      ...product,
     });
     return updateProduct;
   }
