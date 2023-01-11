@@ -94,8 +94,8 @@ class SwapRequestRepository {
         HttpStatusCodes.NOT_FOUND,
         "productrepository->create"
       );
-    const updatedVerify = await SwapRequestSchema.findOneAndUpdate(
-      { id: requestId },
+    const updatedVerify = await SwapRequestSchema.findByIdAndUpdate(
+       requestId ,
       { verify: true },
       { new: true }
     );
@@ -111,10 +111,10 @@ class SwapRequestRepository {
     );
     const updateFromUserId = await ProductsSchema.findOneAndUpdate(
       getFromMarketId,
-      { wallet: getFromUserWalletId }
+      { wallet: getToUserWalletId }
     );
     const swapRequest = await ProductsSchema.findOneAndUpdate(getToMarketId, {
-      wallet: getToUserWalletId,
+      wallet: getFromUserWalletId,
     });
     return updatedVerify;
   }
