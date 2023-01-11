@@ -106,7 +106,7 @@ class SwapRequestRepository {
       updatedVerify.toMarketItemId
     );
     const getFromUserWalletId = await User.findById(updatedVerify.fromUserId);
-    const getToUserWalletId = await MarketItemsSchema.findById(
+    const getToUserWalletId = await User.findById(
       updatedVerify.toUserId
     );
     const updateFromUserId = await ProductsSchema.findOneAndUpdate(
