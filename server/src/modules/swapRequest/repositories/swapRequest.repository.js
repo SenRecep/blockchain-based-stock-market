@@ -110,11 +110,11 @@ class SwapRequestRepository {
       updatedVerify.toUserId
     );
     const updateFromUserId = await ProductsSchema.findOneAndUpdate(
-      getFromMarketId,
-      { wallet: getToUserWalletId }
+      getFromMarketId.id,
+      { wallet: getToUserWalletId.wallet }
     );
-    const swapRequest = await ProductsSchema.findOneAndUpdate(getToMarketId, {
-      wallet: getFromUserWalletId,
+    const swapRequest = await ProductsSchema.findOneAndUpdate(getToMarketId.id, {
+      wallet: getFromUserWalletId.wallet,
     });
     return updatedVerify;
   }
