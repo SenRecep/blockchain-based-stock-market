@@ -137,7 +137,7 @@ class SwapRequestRepository {
       const toMarketItem = await MarketItemsSchema.findById(swap.toMarketItemId);
       const fromProductId = await ProductsSchema.findById(fromMarketItem.product);
       const toProductId = await ProductsSchema.findById(toMarketItem.product);
-      result.push({fromProduct:fromProductId,toProduct:toProductId});
+      result.push({id:swap.id,fromProduct:fromProductId,toProduct:toProductId});
     }
     
     return result;
