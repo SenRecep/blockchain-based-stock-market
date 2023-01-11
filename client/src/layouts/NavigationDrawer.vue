@@ -26,28 +26,16 @@ const items = computed(() =>
       isShow: isShow("/"),
     },
     {
-      title: "Assistant Create",
-      icon: "mdi-account-plus",
-      path: "/admin/assistant-create",
-      isShow: isShow("/admin/assistant-create"),
-    },
-    {
-      title: "Managment",
-      icon: "mdi-cog",
-      path: "/assistant/managment",
-      isShow: isShow("/assistant/managment"),
-    },
-    {
-      title: "Users",
-      icon: "mdi-clipboard-list-outline",
-      path: "/assistant/users",
-      isShow: isShow("/assistant/users"),
-    },
-    {
-      title: "Sessions",
+      title: "Requests",
       icon: "mdi-format-list-bulleted",
-      path: "/assistant/sessions",
-      isShow: isShow("/assistant/sessions"),
+      path: "/requests",
+      isShow: isShow("/requests"),
+    },
+    {
+      title: "Product Create",
+      icon: "mdi-tag-plus",
+      path: "/product/create",
+      isShow: isShow("/product/create"),
     },
   ].filter((x) => x.isShow == undefined || x.isShow)
 );

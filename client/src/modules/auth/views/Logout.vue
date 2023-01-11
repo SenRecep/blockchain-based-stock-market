@@ -8,7 +8,6 @@ const store = useAuthStore();
 localStorageService.removeKeys([
   constants.localStorages.user,
   constants.localStorages.token,
-  constants.localStorages.session,
 ]);
 store.$reset();
 

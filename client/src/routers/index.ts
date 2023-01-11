@@ -3,6 +3,8 @@ import Home from "@/views/Home.view.vue";
 
 import authRoutes from "@/modules/auth/routers";
 import adminRoutes from "@/modules/admin/routes";
+import swapRoutes from "@/modules/swap/routes";
+import productsRoutes from "@/modules/products/routes";
 import { useAuthStore } from "@/stores/auth.store";
 
 const routes: Array<RouteRecordRaw> = [
@@ -16,6 +18,8 @@ const routes: Array<RouteRecordRaw> = [
 
 routes.push(...authRoutes);
 routes.push(...adminRoutes);
+routes.push(...swapRoutes);
+routes.push(...productsRoutes);
 
 routes.push({
   name: "notfound",

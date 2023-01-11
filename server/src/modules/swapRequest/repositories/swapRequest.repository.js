@@ -95,8 +95,9 @@ class SwapRequestRepository {
         "productrepository->create"
       );
     const updatedVerify = await SwapRequestSchema.findOneAndUpdate(
-      { id:requestId },
-      { verify: true },{new:true}
+      { id: requestId },
+      { verify: true },
+      { new: true }
     );
     const getFromMarketId = await MarketItemsSchema.findById(
       updatedVerify.fromMarketItemId

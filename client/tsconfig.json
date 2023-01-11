@@ -23,6 +23,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "vite.config.ts"
+    "vite.config.ts",
+    "src/modules/auth/services/wallet.js",
+    "src/modules/auth/services/wallet.js"
   ]
 }
