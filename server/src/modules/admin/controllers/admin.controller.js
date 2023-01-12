@@ -16,7 +16,6 @@ export const createAssistant = async (req, res, next) => {
 };
 
 export const updateVerifyRequest = async (req, res, next) => {
-  console.log(req.body);
   const { id } = req.body;
   try {
     const data = await adminService.updateVerify(id);

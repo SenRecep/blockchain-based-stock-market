@@ -16,7 +16,6 @@ class AdminRepository {
       { verify: true },
       { new: true }
     );
-    console.log(update);
     return update;
   }
   async updateMoneyVerify(id) {
