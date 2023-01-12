@@ -43,19 +43,18 @@ const swap = (marketItemId: string) => {
 <template>
   <v-row class="justify-start">
     <v-col :cols="col" v-for="item in state.marketItems">
-      <v-card>
+      <v-card class="h-100">
         <v-img
           class="align-end text-white"
           height="200"
           :src="getImageUrl(item.product.image)"
-          cover
         >
           <v-card-title>{{ item.product.name }}</v-card-title>
         </v-img>
 
         <v-card-subtitle class="pt-4"> {{ item.createTime }} </v-card-subtitle>
         <v-card-subtitle class="pt-4">
-          Ammount:{{ item.product.amount }}
+          Amount:{{ item.product.amount }}
         </v-card-subtitle>
 
         <v-card-text>

@@ -59,18 +59,17 @@ const verifyProduct = async (id: string) => {
 <template>
   <v-row class="justify-start">
     <v-col :cols="col" v-for="item in state.products">
-      <v-card>
+      <v-card class="h-100">
         <v-img
           class="align-end text-white"
           height="200"
           :src="getImageUrl(item.image)"
-          cover
         >
           <v-card-title>{{ item.name }}</v-card-title>
         </v-img>
 
         <v-card-subtitle class="pt-4">
-          Ammount:{{ item.amount }}
+          Amount:{{ item.amount }}
         </v-card-subtitle>
 
         <v-card-text>

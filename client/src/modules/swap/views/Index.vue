@@ -69,13 +69,12 @@ const send = async () => {
 </script>
 <template>
   <v-row class="align-center h-100">
-    <v-col cols="6 ">
-      <v-card v-if="state.marketItem">
+    <v-col cols="6 " >
+      <v-card v-if="state.marketItem" class="h-100">
         <v-img
           class="align-end text-white"
           height="200"
           :src="getImageUrl(state.marketItem?.product?.image)"
-          cover
         >
           <v-card-title>{{ state.marketItem?.product?.name }}</v-card-title>
         </v-img>
@@ -84,7 +83,7 @@ const send = async () => {
           {{ state.marketItem?.createTime }}
         </v-card-subtitle>
         <v-card-subtitle class="pt-4">
-          Ammount:{{ state.marketItem?.product?.amount }}
+          Amount:{{ state.marketItem?.product?.amount }}
         </v-card-subtitle>
 
         <v-card-text>

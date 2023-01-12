@@ -11,25 +11,22 @@ import blockchainService from "../services/blockchain.service.js";
 class SwapRequestRepository {
   async createProduct(product, id) {
     const found = await UserRepository.getById(id);
-    if (!found)
-      throw new ApiError(
-        "Not found user",
-        HttpStatusCodes.NOT_FOUND,
-        "productrepository->create"
-      );
+
     const marketItemId = await MarketItemsSchema.findById(
       product.toMarketItemId
     );
     const productId = await ProductsSchema.findOne({
       id: marketItemId.product,
     });
-    const userWalletId = await User.findOne({ wallet: productId.wallet });
+    const toUser = await User.findOne({ wallet: productId.wallet });
     const createRequest = await SwapRequestSchema.create({
       ...product,
       fromUserId: found.id,
-      toUserId: userWalletId.id,
+      toUserId: toUser.id,
       verify: false,
     });
+
+    console.log(createRequest);
     return createRequest;
   }
   async getFromRequest(id) {
