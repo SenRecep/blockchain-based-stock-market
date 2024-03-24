@@ -223,7 +223,7 @@ const swarm = Swarm(config);
        */
     conn.on("close", () => {
       logger.info(`Connection ${seq} closed, peerId: ${peerId}`);
-      if (peers[peerId].seq === seq) {
+      if (peers[peerId]?.seq === seq) {
         delete peers[peerId];
         logger.info(
           "--- registeredMiners before: " + JSON.stringify(registeredMiners)
